@@ -1,255 +1,347 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Gerenciar Galeria - Resenha do Chicão</title>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Montserrat:wght@400;600;800;900&amp;family=Rock+Salt&amp;display=swap" rel="stylesheet"/>
-<style>
-:root {
-  --green: #3DA536;
-  --green-dark:#205f24;
-  --orange:#F9A825;
-  --chalk:#f3f3f3;
-  --board:#0e0f11;
-  --ink:#111;
-}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galeria - Resenha do Chicão</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;800;900&family=Rock+Salt&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #3DA536;
+      --orange: #F9A825;
+      --chalk: #f3f3f3;
+      --board: #0e0f11;
+      --ink: #111;
+    }
 
-/* Reset e Layout Base igual ao Cardápio */
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  color: var(--chalk);
-  background: var(--board);
-  font-family: "Montserrat", sans-serif;
-  min-height: 100vh;
-}
+    body {
+      margin: 0;
+      color: var(--chalk);
+      background: var(--board);
+      font-family: "Montserrat", sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
 
-/* Texturas de Fundo */
-body::before {
-  content: "";
-  position: fixed; inset: 0;
-  background:
-    radial-gradient(1200px 500px at -10% -20%, rgba(255,255,255,.04), transparent 60%),
-    radial-gradient(900px 400px at 110% 0%, rgba(255,255,255,.04), transparent 60%),
-    repeating-linear-gradient(0deg, rgba(255,255,255,.045) 0 1px, transparent 1px 5px),
-    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope="0.03"/></feComponentTransfer></filter><rect width="200" height="200" filter="url(%23n)" fill="white"/></svg>');
-  mix-blend-mode: overlay;
-  opacity: .25;
-  pointer-events: none;
-}
+    /* Textura de Lousa (Igual ao Login) */
+    body::before {
+      content: "";
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(1200px 500px at -10% -20%, rgba(255,255,255,.04), transparent 60%),
+        radial-gradient(900px 400px at 110% 0%, rgba(255,255,255,.04), transparent 60%),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.045) 0 1px, transparent 1px 5px),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope="0.03"/></feComponentTransfer></filter><rect width="200" height="200" filter="url(%23n)" fill="white"/></svg>');
+      mix-blend-mode: overlay;
+      opacity: .25;
+      pointer-events: none;
+      z-index: 0;
+    }
 
-/* Faixa de madeira */
-.wood-strip {
-  background:
-    linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.35)),
-    repeating-linear-gradient(90deg, #5c3b22 0 16px, #6d4527 16px 32px, #7a4c2a 32px 48px);
-  box-shadow: inset 0 -6px 0 rgba(0,0,0,.35), inset 0 6px 0 rgba(0,0,0,.25);
-  padding: 20px 0;
-  text-align: center;
-}
+    /* Faixas de Madeira */
+    .wood-strip {
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.35)),
+        repeating-linear-gradient(90deg, #5c3b22 0 16px, #6d4527 16px 32px, #7a4c2a 32px 48px);
+      box-shadow: inset 0 -6px 0 rgba(0,0,0,.35), inset 0 6px 0 rgba(0,0,0,.25);
+      width: 100%;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+    }
+    .wood-strip h1 {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 36px;
+      color: var(--orange);
+      margin: 0;
+      text-shadow: 0 2px 0 rgba(0,0,0,.55);
+      letter-spacing: 0.05em;
+    }
+    .back-btn {
+        position: absolute;
+        left: 20px;
+        color: rgba(255,255,255,0.6);
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 14px;
+        border: 1px dashed rgba(255,255,255,0.3);
+        padding: 5px 10px;
+        border-radius: 5px;
+        transition: all 0.3s;
+    }
+    .back-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
 
-.poster {
-  max-width: 1080px;
-  margin: 0 auto;
-  padding: 20px 14px;
-}
+    /* Conteúdo Principal */
+    main {
+        z-index: 2;
+        width: 100%;
+        max-width: 1000px;
+        padding: 20px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-h1 {
-  font-family: "Bebas Neue", sans-serif;
-  font-size: clamp(36px, 6vw, 60px);
-  color: var(--orange);
-  margin: 0;
-  text-shadow: 0 4px 0 rgba(0,0,0,.55);
-}
+    /* Painel do Admin (Upload) */
+    #adminPanel {
+        display: none; /* ESCONDIDO POR PADRÃO */
+        background: rgba(61, 165, 54, 0.1);
+        border: 2px dashed var(--green);
+        padding: 20px;
+        border-radius: 12px;
+        width: 100%;
+        max-width: 500px;
+        margin-bottom: 30px;
+        text-align: center;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
 
-.subtitle {
-    font-family: "Rock Salt", cursive;
-    color: #fff;
-    font-size: 18px;
-    margin-top: 5px;
-}
+    .admin-title {
+        font-family: "Rock Salt", cursive;
+        color: var(--green);
+        margin: 0 0 15px;
+        font-size: 18px;
+    }
 
-/* Área de Upload */
-.upload-section {
-    background: rgba(255,255,255,0.05);
-    border: 3px dashed var(--orange);
-    border-radius: 14px;
-    padding: 30px;
-    text-align: center;
-    margin-bottom: 40px;
-    transition: all 0.3s;
-}
+    /* Botões Personalizados */
+    input[type="file"] {
+        background: rgba(0,0,0,0.3);
+        padding: 10px;
+        border-radius: 6px;
+        color: #fff;
+        width: 100%;
+        margin-bottom: 10px;
+        border: 1px solid rgba(255,255,255,0.2);
+    }
 
-.upload-section:hover {
-    background: rgba(255,255,255,0.08);
-}
+    .btn-action {
+        background: var(--green);
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-family: "Bebas Neue";
+        font-size: 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+    .btn-action:hover { transform: scale(1.05); filter: brightness(1.1); }
+    
+    .btn-logout {
+        background: transparent;
+        border: 1px solid #aaa;
+        color: #aaa;
+        padding: 5px 12px;
+        margin-top: 10px;
+        cursor: pointer;
+        font-size: 12px;
+        border-radius: 4px;
+    }
+    .btn-logout:hover { border-color: #fff; color: #fff; }
 
-.file-input-wrapper {
-    margin: 20px 0;
-}
+    /* Grid de Fotos */
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 20px;
+        width: 100%;
+    }
 
-input[type="file"] {
-    display: none;
-}
+    .photo-card {
+        position: relative;
+        background: #fff;
+        padding: 8px 8px 25px 8px; /* Estilo Polaroid */
+        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        transform: rotate(-1deg);
+        transition: all 0.3s ease;
+    }
+    
+    .photo-card:nth-child(even) { transform: rotate(1.5deg); }
+    .photo-card:hover { transform: scale(1.05) rotate(0deg); z-index: 10; }
 
-.custom-file-upload {
-    display: inline-block;
-    padding: 12px 24px;
-    cursor: pointer;
-    background: var(--green);
-    color: white;
-    font-weight: 800;
-    border-radius: 8px;
-    font-family: "Montserrat", sans-serif;
-    border: 2px solid var(--green-dark);
-    transition: transform 0.2s;
-}
-.custom-file-upload:hover { transform: scale(1.05); }
+    .photo-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        display: block;
+        background: #eee;
+    }
 
-.btn-submit {
-    padding: 12px 30px;
-    background: var(--orange);
-    color: var(--ink);
-    font-family: "Bebas Neue", sans-serif;
-    font-size: 24px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-left: 10px;
-}
+    /* Botão Excluir (X) */
+    .delete-btn {
+        display: none; /* ESCONDIDO POR PADRÃO */
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        width: 30px;
+        height: 30px;
+        background: #ff4444;
+        color: white;
+        border: 2px solid #fff;
+        border-radius: 50%;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        z-index: 20;
+        align-items: center;
+        justify-content: center;
+    }
+    .delete-btn:hover { background: #cc0000; transform: scale(1.1); }
 
-/* Grid de Galeria (Estilo Masonry) */
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-}
+    .loading-text { font-family: "Rock Salt"; opacity: 0.5; margin-top: 50px; }
 
-.media-card {
-    background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.015));
-    border: 2px dashed rgba(255,255,255,.18);
-    border-radius: 10px;
-    overflow: hidden;
-    position: relative;
-    box-shadow: 0 8px 18px rgba(0,0,0,.45);
-}
-
-.media-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    display: block;
-    opacity: 0.9;
-}
-
-.media-actions {
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(0,0,0,0.3);
-}
-
-.media-name {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--orange);
-}
-
-.btn-delete {
-    background: transparent;
-    border: 1px solid #ff4444;
-    color: #ff4444;
-    padding: 4px 8px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 10px;
-    font-weight: bold;
-}
-.btn-delete:hover { background: #ff4444; color: white; }
-
-/* Botão Voltar */
-.nav-back {
-    display: inline-block;
-    margin-top: 30px;
-    color: var(--chalk);
-    text-decoration: none;
-    font-weight: bold;
-    border-bottom: 1px dashed var(--orange);
-}
-</style>
+  </style>
 </head>
 <body>
 
-<div class="wood-strip">
-    <h1>Gerenciador de Mídias</h1>
-    <div class="subtitle">Adicionar fotos ao cardápio ou site</div>
-</div>
+  <div class="wood-strip">
+    <a href="/" class="back-btn">← Voltar</a>
+    <h1>Galeria de Fotos</h1>
+  </div>
 
-<main class="poster">
-    
-    <section class="upload-section">
-        <h3 style="margin-top:0; font-family:'Bebas Neue'; font-size: 28px;">Anexar Nova Mídia</h3>
-        <form action="/upload" method="POST" enctype="multipart/form-data">
-            <div class="file-input-wrapper">
-                <label for="file-upload" class="custom-file-upload">
-                    📂 Escolher Arquivo
-                </label>
-                <input id="file-upload" type="file" name="media" />
-                <button type="submit" class="btn-submit">ENVIAR</button>
-            </div>
-            <p style="font-size: 12px; opacity: 0.7;">Formatos aceitos: JPG, PNG, MP4 (Max 10MB)</p>
-        </form>
-    </section>
-
-    <h3 style="font-family:'Bebas Neue'; font-size: 32px; border-bottom: 2px dashed rgba(255,255,255,0.1); padding-bottom: 10px;">Mídias Existentes</h3>
-    
-    <div class="gallery-grid">
-        <div class="media-card">
-            <img src="/cardapio/logo.png" alt="Logo">
-            <div class="media-actions">
-                <span class="media-name">logo_v1.png</span>
-                <button class="btn-delete">EXCLUIR</button>
-            </div>
-        </div>
-        
-        <div class="media-card">
-            <div style="height:200px; display:grid; place-items:center; background:rgba(255,255,255,0.05);">
-                <span style="font-size:40px;">🍺</span>
-            </div>
-            <div class="media-actions">
-                <span class="media-name">cerveja_promo.jpg</span>
-                <button class="btn-delete">EXCLUIR</button>
-            </div>
-        </div>
-        
-        <div class="media-card">
-            <div style="height:200px; display:grid; place-items:center; background:rgba(255,255,255,0.05);">
-                <span style="font-size:40px;">🥩</span>
-            </div>
-            <div class="media-actions">
-                <span class="media-name">carne_sol.jpg</span>
-                <button class="btn-delete">EXCLUIR</button>
-            </div>
-        </div>
+  <main>
+    <div id="adminPanel">
+        <h3 class="admin-title">Gerenciar Galeria</h3>
+        <input type="file" id="fileInput" accept="image/*">
+        <button class="btn-action" id="btnUpload">ENVIAR FOTO</button>
+        <p id="uploadStatus" style="font-size: 13px; margin-top:10px; color:#ddd;"></p>
+        <button class="btn-logout" id="btnLogout">Sair (Logout)</button>
     </div>
 
-    <center><a href="/cardapio/" class="nav-back">← Voltar para o Cardápio</a></center>
+    <div id="galleryContainer" class="gallery-grid">
+        <p class="loading-text">Carregando memórias...</p>
+    </div>
+  </main>
 
-</main>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getStorage, ref, uploadBytes, listAll, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
-<script>
-    // Pequeno script para mostrar o nome do arquivo selecionado
-    document.getElementById('file-upload').addEventListener('change', function(){
-        const fileName = this.files[0] ? this.files[0].name : "Nenhum arquivo escolhido";
-        document.querySelector('.custom-file-upload').innerText = "📂 " + fileName;
-        document.querySelector('.custom-file-upload').style.background = "#F9A825"; // Muda para laranja
-        document.querySelector('.custom-file-upload').style.color = "#111";
+    // --- CONFIGURAÇÃO CORRETA ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyBnTFb-qQEaoQ-bZ1be97KQfuARAOyiEu0",
+      authDomain: "resenha-chicao.firebaseapp.com",
+      projectId: "resenha-chicao",
+      storageBucket: "resenha-chicao.firebasestorage.app",
+      messagingSenderId: "529044459829",
+      appId: "1:529044459829:web:a3c1485f390ff3f759fc7c",
+      measurementId: "G-N67ZDJLXP6"
+    };
+    // ----------------------------
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const storage = getStorage(app);
+    const galleryFolderRef = ref(storage, 'galeria_fotos');
+
+    // 1. VERIFICAÇÃO DE LOGIN
+    onAuthStateChanged(auth, (user) => {
+        const adminPanel = document.getElementById('adminPanel');
+        
+        if (user) {
+            // Se tem usuário logado, MOSTRA o painel
+            adminPanel.style.display = 'block';
+            // E mostra os botões de excluir que já estiverem na tela
+            document.querySelectorAll('.delete-btn').forEach(btn => btn.style.display = 'flex');
+        } else {
+            // Se não tem ninguém, ESCONDE
+            adminPanel.style.display = 'none';
+            document.querySelectorAll('.delete-btn').forEach(btn => btn.style.display = 'none');
+        }
     });
-</script>
+
+    // 2. CARREGAR FOTOS
+    function loadPhotos() {
+        const container = document.getElementById('galleryContainer');
+        
+        listAll(galleryFolderRef).then((res) => {
+            container.innerHTML = ''; // Limpa o "Carregando..."
+
+            if(res.items.length === 0) {
+                container.innerHTML = '<p class="loading-text">Nenhuma foto encontrada.</p>';
+                return;
+            }
+
+            res.items.forEach((itemRef) => {
+                getDownloadURL(itemRef).then((url) => {
+                    const card = document.createElement('div');
+                    card.className = 'photo-card';
+                    
+                    // HTML do Card
+                    card.innerHTML = `
+                        <img src="${url}" alt="Foto da Galeria" loading="lazy">
+                        <button class="delete-btn" onclick="deletarFoto('${itemRef.fullPath}')">✕</button>
+                    `;
+                    container.appendChild(card);
+
+                    // Verifica login novamente para mostrar o botão X neste novo card
+                    if(auth.currentUser) {
+                        card.querySelector('.delete-btn').style.display = 'flex';
+                    }
+                });
+            });
+        }).catch((error) => {
+            console.error(error);
+            container.innerHTML = '<p class="loading-text">Erro ao carregar fotos.</p>';
+        });
+    }
+
+    // 3. UPLOAD
+    document.getElementById('btnUpload').addEventListener('click', () => {
+        const file = document.getElementById('fileInput').files[0];
+        if(!file) return alert("Por favor, selecione uma foto!");
+
+        const status = document.getElementById('uploadStatus');
+        status.innerText = "Enviando... Aguarde.";
+        
+        // Nome único para evitar substituição
+        const fileName = Date.now() + '_' + file.name;
+        const newRef = ref(storage, 'galeria_fotos/' + fileName);
+
+        uploadBytes(newRef, file).then(() => {
+            alert("Foto enviada com sucesso!");
+            status.innerText = "Enviado!";
+            document.getElementById('fileInput').value = "";
+            loadPhotos(); // Atualiza a tela
+        }).catch(err => {
+            console.error(err);
+            alert("Erro: " + err.message);
+            status.innerText = "Erro no envio.";
+        });
+    });
+
+    // 4. DELETAR (Função Global)
+    window.deletarFoto = (fullPath) => {
+        if(!auth.currentUser) return;
+        if(!confirm("Tem certeza que deseja apagar esta foto permanentemente?")) return;
+
+        const fileRef = ref(storage, fullPath);
+        deleteObject(fileRef).then(() => {
+            alert("Foto apagada!");
+            loadPhotos(); // Atualiza a tela removendo a foto
+        }).catch(err => {
+            alert("Erro ao apagar: " + err.message);
+        });
+    }
+
+    // 5. LOGOUT
+    document.getElementById('btnLogout').addEventListener('click', () => {
+        signOut(auth).then(() => window.location.reload());
+    });
+
+    // Inicia carregamento
+    loadPhotos();
+  </script>
 
 </body>
 </html>
