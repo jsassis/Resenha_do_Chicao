@@ -54,12 +54,38 @@
       position: absolute;
       top: 0;
       left: 0;
+      z-index: 1;
     }
 
     .wood-strip.bottom {
       top: auto;
       bottom: 0;
       height: 80px;
+    }
+
+    /* Botão de Login no Topo */
+    .login-tiny {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      z-index: 10;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 6px 12px;
+      border: 1px dashed rgba(255,255,255,0.2);
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      background: rgba(0,0,0,0.2);
+    }
+
+    .login-tiny:hover {
+      color: var(--orange);
+      border-color: var(--orange);
+      background: rgba(0,0,0,0.6);
+      transform: translateY(2px);
     }
 
     header {
@@ -140,7 +166,11 @@
   </style>
 </head>
 <body>
+  
+  <a href="/login/" class="login-tiny" title="Área Administrativa">🔒 Login</a>
+
   <div class="wood-strip"></div>
+  
   <header>
     <div class="logo-wrap">
       <img src="/cardapio/logo.png" alt="Logo Resenha do Chicão">
@@ -151,13 +181,13 @@
 
   <nav>
     <a href="/cardapio/" class="btn">Ver Cardápio</a>
-    <a href="/sobre/" class="btn">Sobre</a>
+    <a href="/galeria/" class="btn">Galeria</a>
     <a href="/contato/" class="btn">Contato</a>
   </nav>
 
   <div class="wood-strip bottom"></div>
   <footer>
-    © 2025 Resenha do Chicão
+    Resenha do Chicão
   </footer>
 </body>
 </html>
