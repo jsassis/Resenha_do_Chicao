@@ -11,12 +11,13 @@
   
   <style>
     :root {
-      --primary: #3DA536; /* Verde Futebol */
+      --primary: #3DA536; /* Verde Futebol Neon */
       --secondary: #205f24; 
       --dark: #121212;
       --darker: #0a0a0a;
       --light: #f4f4f4;
       --gray: #2a2a2a;
+      --gold: #d4af37;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -26,6 +27,9 @@
       color: var(--light);
       font-family: "Montserrat", sans-serif;
       overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
 
     /* --- NAVBAR --- */
@@ -69,31 +73,35 @@
     .cta-button { background: var(--primary); color: #fff; text-decoration: none; font-family: "Montserrat"; font-weight: 800; text-transform: uppercase; padding: 15px 40px; border-radius: 50px; font-size: 14px; letter-spacing: 1px; transition: 0.3s; box-shadow: 0 10px 20px rgba(61, 165, 54, 0.3); border: 2px solid var(--primary); animation: fadeInUp 1s ease 0.6s backwards; }
     .cta-button:hover { background: transparent; color: var(--primary); transform: translateY(-5px); }
 
-    /* --- SCHEDULE --- */
+    /* --- SCHEDULE (AGENDA) --- */
     .schedule-section { background: var(--gray); padding: 60px 20px; position: relative; }
+    .schedule-section::before { content: ""; position: absolute; top:0; left:0; width:100%; height: 5px; background: repeating-linear-gradient(45deg, var(--primary) 0 10px, transparent 10px 20px); }
     .section-title { font-family: "Bebas Neue"; font-size: 48px; text-align: center; margin-bottom: 40px; color: #fff; }
     .section-title span { color: var(--primary); }
     
-    .games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; min-height: 200px; }
-    .game-card { background: var(--dark); border: 1px solid #333; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; transition: 0.3s; }
-    .game-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+    .games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; min-height: 150px; }
+    
+    .game-card { background: var(--dark); border: 1px solid #333; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; transition: 0.3s; position: relative; }
+    .game-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+    
     .game-header { background: #1f1f1f; padding: 10px; text-align: center; font-weight: bold; color: #888; font-size: 14px; border-bottom: 1px solid #333; }
     .game-body { padding: 20px; display: flex; align-items: center; justify-content: space-between; }
-    .team { text-align: center; width: 40%; font-weight: 700; font-size: 14px; text-transform: uppercase; }
+    .team { text-align: center; width: 40%; font-weight: 700; font-size: 14px; text-transform: uppercase; color: #fff; }
     .versus { font-family: "Rock Salt"; color: var(--primary); font-size: 12px; }
-    .game-info { background: #000; color: #d4af37; text-align: center; padding: 8px; font-family: "Bebas Neue"; font-size: 18px; letter-spacing: 1px; }
+    .game-info { background: #000; color: var(--gold); text-align: center; padding: 8px; font-family: "Bebas Neue"; font-size: 18px; letter-spacing: 1px; }
 
     /* --- MENU PREVIEW --- */
     .menu-preview { padding: 60px 20px; background: var(--darker); }
     .scroll-container { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 20px; max-width: 1200px; margin: 0 auto; scrollbar-width: thin; scrollbar-color: var(--primary) #333; }
-    .menu-item-card { min-width: 250px; background: var(--gray); border-radius: 12px; overflow: hidden; position: relative; }
+    .menu-item-card { min-width: 250px; background: var(--gray); border-radius: 12px; overflow: hidden; position: relative; border: 1px solid #333; transition: 0.3s; }
+    .menu-item-card:hover { border-color: var(--primary); transform: translateY(-3px); }
     .menu-item-card img { width: 100%; height: 180px; object-fit: cover; }
     .menu-item-info { padding: 15px; }
     .menu-item-title { font-weight: 800; font-size: 18px; margin-bottom: 5px; color: #fff; }
     .menu-item-price { color: var(--primary); font-family: "Bebas Neue"; font-size: 20px; }
 
     /* --- FOOTER --- */
-    footer { background: #050505; padding: 40px 20px; text-align: center; border-top: 1px solid #333; }
+    footer { background: #050505; padding: 40px 20px; text-align: center; border-top: 1px solid #333; margin-top: auto; }
     .social-links { margin-bottom: 20px; display: flex; justify-content: center; gap: 20px; }
     .social-links a { color: #888; transition: 0.3s; display: inline-block; }
     .social-links a:hover { color: var(--primary); transform: scale(1.1); }
@@ -104,7 +112,11 @@
     /* LOGIN DISCRETO */
     .admin-link { color: #333; text-decoration: none; font-size: 11px; margin-top: 20px; display: inline-block; transition: 0.3s; }
     .admin-link:hover { color: var(--primary); }
-    .status-dot { display: inline-block; width: 8px; height: 8px; background: var(--primary); border-radius: 50%; margin-right: 5px; display: none; }
+    .status-dot { display: inline-block; width: 8px; height: 8px; background: var(--primary); border-radius: 50%; margin-right: 5px; }
+
+    /* Animations */
+    @keyframes fadeInDown { from { opacity:0; transform:translateY(-30px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeInUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
 
     /* Mobile */
     .mobile-menu-btn { display: none; background:none; border:none; color:#fff; font-size:28px; cursor:pointer; }
@@ -114,8 +126,6 @@
       .mobile-menu-btn { display: block; }
       .hero { height: auto; padding: 100px 20px 60px; }
     }
-    @keyframes fadeInDown { from { opacity:0; transform:translateY(-30px); } to { opacity:1; transform:translateY(0); } }
-    @keyframes fadeInUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
   </style>
 </head>
 <body>
@@ -125,7 +135,9 @@
       <img src="/cardapio/logo.png" alt="Logo">
       <span>Resenha do Chicão</span>
     </div>
+    
     <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+
     <div class="nav-links" id="navLinks">
       <a href="/" class="nav-item active">Home</a>
       <a href="https://whatsmenu.com.br/resenhadochicao" target="_blank" class="nav-item">Cardápio</a>
@@ -143,21 +155,24 @@
 
   <section class="schedule-section" id="programacao">
     <h2 class="section-title">Agenda <span>de Eventos</span></h2>
+    
     <div class="games-grid" id="agendaContainer">
-      <p style="grid-column: 1/-1; text-align: center; color: #666;">Carregando eventos...</p>
+      <p style="grid-column: 1/-1; text-align: center; color: #666; font-size: 14px;">Carregando eventos...</p>
     </div>
   </section>
 
   <section class="menu-preview">
     <h2 class="section-title">Favoritos da <span>Casa</span></h2>
     <div class="scroll-container">
+      
       <div class="menu-item-card">
         <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80" alt="Carne do Sol">
         <div class="menu-item-info">
           <div class="menu-item-title">Carne do Sol</div>
-          <div class="menu-item-price">R$ 45,00</div>
+          <div class="menu-item-price">R$ 50,00</div>
         </div>
       </div>
+
       <div class="menu-item-card">
         <img src="https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?auto=format&fit=crop&w=600&q=80" alt="Batata Frita">
         <div class="menu-item-info">
@@ -165,20 +180,23 @@
           <div class="menu-item-price">R$ 20,00</div>
         </div>
       </div>
+
       <div class="menu-item-card">
         <img src="https://images.unsplash.com/photo-1608270586620-248524c67de9?q=80&w=600&auto=format&fit=crop" alt="Brahma">
         <div class="menu-item-info">
           <div class="menu-item-title">Brahma 600ml</div>
-          <div class="menu-item-price">R$ 11,00</div>
+          <div class="menu-item-price">R$ 9,00</div>
         </div>
       </div>
+
        <div class="menu-item-card">
         <img src="https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=600&q=80" alt="Tábua de Frios">
         <div class="menu-item-info">
           <div class="menu-item-title">Tábua de Frios</div>
-          <div class="menu-item-price">R$ 20,00</div>
+          <div class="menu-item-price">R$ 25,00</div>
         </div>
       </div>
+
     </div>
     <center style="margin-top:30px;">
       <a href="/galeria/" style="color:#fff; text-decoration:none; border-bottom:1px solid var(--primary);">Ver Galeria de Fotos →</a>
@@ -187,8 +205,12 @@
 
   <footer>
     <div class="social-links">
-      <a href="https://www.instagram.com/resenha.dochicao_/" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
-      <a href="https://api.whatsapp.com/send?phone=557131687533" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></a>
+      <a href="https://www.instagram.com/resenha.dochicao_/" target="_blank" aria-label="Instagram">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+      </a>
+      <a href="https://api.whatsapp.com/send?phone=557131687533" target="_blank" aria-label="WhatsApp">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+      </a>
     </div>
     <div class="footer-info">
       <p>Rua Teixeira Mendes, 29 - Salvador, BA</p>
@@ -217,25 +239,20 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    const agendaRef = collection(db, "agenda_eventos");
-
-    // 1. GERENCIAR BOTÃO LOGIN / LOGOUT
+    const agendaRef = collection(db, "agenda_eventos"); // Nome corrigido
     const authLink = document.getElementById('authLink');
-    
+
+    // 1. GERENCIAR LOGIN RODAPÉ
     onAuthStateChanged(auth, (user) => {
         if (user) {
-            // Se logado: mostra botão de SAIR com indicador verde
-            authLink.innerHTML = '<span class="status-dot" style="display:inline-block"></span> Sair (Logout)';
+            authLink.innerHTML = '<span class="status-dot"></span> Sair (Logout)';
             authLink.style.color = '#3DA536';
             authLink.href = "#";
             authLink.onclick = (e) => {
                 e.preventDefault();
-                if(confirm("Deseja sair do sistema?")) {
-                    signOut(auth).then(() => window.location.reload());
-                }
+                if(confirm("Deseja sair do sistema?")) signOut(auth).then(() => window.location.reload());
             };
         } else {
-            // Se deslogado: link normal para login
             authLink.innerHTML = '🔒 Área Restrita';
             authLink.style.color = '#333';
             authLink.href = "/login/";
@@ -243,7 +260,7 @@
         }
     });
 
-    // 2. CARREGAR EVENTOS
+    // 2. CARREGAR EVENTOS DA AGENDA
     const q = query(agendaRef, orderBy("createdAt", "asc"));
     
     onSnapshot(q, (snapshot) => {
@@ -251,7 +268,7 @@
       container.innerHTML = "";
 
       if(snapshot.empty) {
-        container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #666; font-size: 14px;">Nenhum evento cadastrado no momento.</p>';
+        container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #666; font-size: 14px;">Nenhum evento na agenda hoje.</p>';
         return;
       }
 
@@ -270,6 +287,8 @@
         `;
         container.appendChild(card);
       });
+    }, (error) => {
+        console.error("Erro ao carregar agenda:", error);
     });
 
     window.toggleMenu = () => {
