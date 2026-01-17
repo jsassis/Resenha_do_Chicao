@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Agenda - Resenha do Chicão</title>
+  <title>Agenda - Resenha do Chicão</title>
   
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700&family=Rock+Salt&display=swap" rel="stylesheet">
   
@@ -27,7 +27,7 @@
     button { width: 100%; padding: 15px; background: var(--primary); color: #fff; border: none; font-weight: bold; cursor: pointer; border-radius: 5px; font-family: "Bebas Neue"; font-size: 20px; letter-spacing: 1px; }
     button:hover { filter: brightness(1.1); }
 
-    /* Lista de Jogos */
+    /* Lista de Eventos */
     .game-item { background: #1a1a1a; border-left: 4px solid var(--primary); padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-radius: 4px; }
     .game-details strong { display: block; color: var(--primary); font-family: "Bebas Neue"; font-size: 18px; }
     .game-details span { font-size: 14px; color: #aaa; }
@@ -45,7 +45,7 @@
   </div>
 
   <div class="container">
-    <h1>Adicionar Jogo na Agenda</h1>
+    <h1>Adicionar Evento na Agenda</h1>
     
     <form id="agendaForm" class="admin-form">
       <div class="form-group">
@@ -56,10 +56,10 @@
         <input type="text" id="teamA" placeholder="Time A (ex: BAHIA)" required>
         <input type="text" id="teamB" placeholder="Time B (ex: VITÓRIA)" required>
       </div>
-      <button type="submit" id="btnSave">ADICIONAR JOGO</button>
+      <button type="submit" id="btnSave">ADICIONAR EVENTO</button>
     </form>
 
-    <h2 style="font-family:'Bebas Neue';">Jogos Cadastrados</h2>
+    <h2 style="font-family:'Bebas Neue';">Eventos Cadastrados</h2>
     <div id="gamesList">
       <p class="loading">Carregando...</p>
     </div>
@@ -83,7 +83,7 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    const agendaRef = collection(db, "agenda_jogos");
+    const agendaRef = collection(db, "agenda_eventos");
 
     // Verificar Login
     onAuthStateChanged(auth, (user) => {
@@ -93,7 +93,7 @@
       }
     });
 
-    // Salvar Jogo
+    // Salvar Evento
     document.getElementById('agendaForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = document.getElementById('btnSave');
@@ -108,22 +108,22 @@
           createdAt: Date.now() // Para ordenar
         });
         document.getElementById('agendaForm').reset();
-        alert("Jogo adicionado!");
+        alert("Evento adicionado!");
       } catch (err) {
         alert("Erro ao salvar.");
         console.error(err);
       }
-      btn.innerText = "ADICIONAR JOGO";
+      btn.innerText = "ADICIONAR EVENTO";
     });
 
-    // Listar Jogos
+    // Listar Eventos
     const q = query(agendaRef, orderBy("createdAt", "asc"));
     onSnapshot(q, (snapshot) => {
       const container = document.getElementById('gamesList');
       container.innerHTML = "";
       
       if(snapshot.empty) {
-        container.innerHTML = "<p>Nenhum jogo cadastrado.</p>";
+        container.innerHTML = "<p>Nenhum evento cadastrado.</p>";
         return;
       }
 
@@ -141,8 +141,8 @@
         `;
         
         div.querySelector('.btn-delete').addEventListener('click', async () => {
-          if(confirm("Remover este jogo?")) {
-            await deleteDoc(doc(db, "agenda_jogos", docSnap.id));
+          if(confirm("Remover este evento?")) {
+            await deleteDoc(doc(db, "agenda_eventos", docSnap.id));
           }
         });
 
@@ -151,4 +151,5 @@
     });
   </script>
 </body>
+
 </html>
