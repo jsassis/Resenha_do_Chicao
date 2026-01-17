@@ -82,12 +82,13 @@
     .section-title { font-family: "Bebas Neue"; font-size: 48px; text-align: center; margin-bottom: 40px; color: #fff; }
     .section-title span { color: var(--primary); }
     
-    .games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
+    .games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; min-height: 200px; }
+    
     .game-card { background: var(--dark); border: 1px solid #333; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; transition: 0.3s; }
     .game-card:hover { border-color: var(--primary); transform: translateY(-5px); }
     .game-header { background: #1f1f1f; padding: 10px; text-align: center; font-weight: bold; color: #888; font-size: 14px; border-bottom: 1px solid #333; }
     .game-body { padding: 20px; display: flex; align-items: center; justify-content: space-between; }
-    .team { text-align: center; width: 40%; font-weight: 700; font-size: 14px; }
+    .team { text-align: center; width: 40%; font-weight: 700; font-size: 14px; text-transform: uppercase; }
     .versus { font-family: "Rock Salt"; color: var(--primary); font-size: 12px; }
     .game-info { background: #000; color: var(--gold); text-align: center; padding: 8px; font-family: "Bebas Neue"; font-size: 18px; letter-spacing: 1px; }
 
@@ -149,34 +150,9 @@
 
   <section class="schedule-section" id="programacao">
     <h2 class="section-title">Programação <span>da Semana</span></h2>
-    <div class="games-grid">
-      <div class="game-card">
-        <div class="game-header">QUARTA • 28/01</div>
-        <div class="game-body">
-          <div class="team">VITÓRIA</div>
-          <div class="versus">X</div>
-          <div class="team">REMO</div>
-        </div>
-        <div class="game-info">19:00 • TELÃO PRINCIPAL</div>
-      </div>
-      <div class="game-card">
-        <div class="game-header">QUINTA • 29/01</div>
-        <div class="game-body">
-          <div class="team">BAHIA</div>
-          <div class="versus">X</div>
-          <div class="team">CORINTHIANS</div>
-        </div>
-        <div class="game-info">20:30 • TELÃO PRINCIPAL</div>
-      </div>
-      <div class="game-card">
-        <div class="game-header">QUARTA • 04/02</div>
-        <div class="game-body">
-          <div class="team">SANTOS</div>
-          <div class="versus">X</div>
-          <div class="team">SÃO PAULO</div>
-        </div>
-        <div class="game-info">20:00 • TELÃO PRINCIPAL</div>
-      </div>
+    
+    <div class="games-grid" id="agendaContainer">
+      <p style="grid-column: 1/-1; text-align: center; color: #666;">Carregando jogos...</p>
     </div>
   </section>
 
@@ -188,7 +164,7 @@
         <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80" alt="Carne do Sol">
         <div class="menu-item-info">
           <div class="menu-item-title">Carne do Sol</div>
-          <div class="menu-item-price">R$ 50,00</div>
+          <div class="menu-item-price">R$ 45,00</div>
         </div>
       </div>
 
@@ -238,13 +214,57 @@
     <div class="copyright">Resenha do Chicão</div>
   </footer>
 
-  <script>
-    function toggleMenu() {
-      const nav = document.getElementById('navLinks');
-      nav.classList.toggle('active');
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBnTFb-qQEaoQ-bZ1be97KQfuARAOyiEu0",
+      authDomain: "resenha-chicao.firebaseapp.com",
+      projectId: "resenha-chicao",
+      storageBucket: "resenha-chicao.firebasestorage.app",
+      messagingSenderId: "529044459829",
+      appId: "1:529044459829:web:a3c1485f390ff3f759fc7c",
+      measurementId: "G-N67ZDJLXP6"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const agendaRef = collection(db, "agenda_jogos");
+
+    // CARREGAR AGENDA EM TEMPO REAL
+    const q = query(agendaRef, orderBy("createdAt", "asc"));
+    
+    onSnapshot(q, (snapshot) => {
+      const container = document.getElementById('agendaContainer');
+      container.innerHTML = "";
+
+      if(snapshot.empty) {
+        container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #666; font-size: 14px;">Nenhum jogo cadastrado no momento.</p>';
+        return;
+      }
+
+      snapshot.forEach((doc) => {
+        const item = doc.data();
+        const card = document.createElement('div');
+        card.className = 'game-card';
+        card.innerHTML = `
+          <div class="game-header">${item.data}</div>
+          <div class="game-body">
+            <div class="team">${item.teamA}</div>
+            <div class="versus">X</div>
+            <div class="team">${item.teamB}</div>
+          </div>
+          <div class="game-info">${item.info}</div>
+        `;
+        container.appendChild(card);
+      });
+    });
+
+    window.toggleMenu = () => {
+      document.getElementById('navLinks').classList.toggle('active');
     }
   </script>
 
 </body>
 </html>
-
