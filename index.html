@@ -148,8 +148,8 @@
     <a href="https://whatsmenu.com.br/resenhadochicao" target="_blank" class="cta-button">Ver Cardápio Completo</a>
   </header>
 
-  <section class="schedule-section" id="programacao">
-    <h2 class="section-title">Programação <span>da Semana</span></h2>
+  <section class="schedule-section" id="agenda">
+    <h2 class="section-title">Agenda <span>de Eventos</span></h2>
     
     <div class="games-grid" id="agendaContainer">
       <p style="grid-column: 1/-1; text-align: center; color: #666;">Carregando eventos...</p>
@@ -230,13 +230,13 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    const agendaRef = collection(db, "agenda_eventos");
+    const Ref = collection(db, "_eventos");
 
-    // CARREGAR AGENDA EM TEMPO REAL
-    const q = query(agendaRef, orderBy("createdAt", "asc"));
+    // CARREGAR  EM TEMPO REAL
+    const q = query(Ref, orderBy("createdAt", "asc"));
     
     onSnapshot(q, (snapshot) => {
-      const container = document.getElementById('agendaContainer');
+      const container = document.getElementById('Container');
       container.innerHTML = "";
 
       if(snapshot.empty) {
@@ -268,5 +268,6 @@
 
 </body>
 </html>
+
 
 
