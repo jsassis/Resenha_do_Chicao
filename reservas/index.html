@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reservas - Resenha do Chicão</title>
+  <title>Reserve o Espaço - Resenha do Chicão</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -64,13 +64,13 @@
       .mobile-menu-btn { display: block; }
     }
 
-    /* --- FORMULÁRIO DE RESERVA --- */
+    /* --- FORMULÁRIO DE EVENTOS --- */
     main {
       margin-top: 100px;
       padding: 20px;
       flex: 1;
       width: 100%;
-      max-width: 600px;
+      max-width: 700px;
       margin-left: auto;
       margin-right: auto;
     }
@@ -140,14 +140,35 @@
   </nav>
 
   <main>
-    <h1>GARANTA SEU <span>LUGAR</span></h1>
-    <p class="subtitle">Reserve sua mesa e venha curtir a resenha!</p>
+    <h1>FAÇA SUA <span>FESTA</span></h1>
+    <p class="subtitle">Aniversários, Confraternizações e Eventos Privados</p>
 
     <div class="reserve-card">
       <form id="reservationForm">
         <div class="form-group">
-          <label>Seu Nome</label>
+          <label>Nome do Responsável</label>
           <input type="text" id="name" placeholder="Ex: João Silva" required>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+          <div class="form-group">
+            <label>Tipo de Evento</label>
+            <select id="eventType">
+              <option value="Aniversário">Aniversário</option>
+              <option value="Confraternização">Confraternização</option>
+              <option value="Happy Hour">Happy Hour</option>
+              <option value="Outro">Outro (Especificar)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Estimativa de Convidados</label>
+            <select id="people">
+              <option value="10-30">10 a 30 Pessoas</option>
+              <option value="30-60">30 a 60 Pessoas</option>
+              <option value="60-80">60 a 80 Pessoas</option>
+              <option value="80-100">80 a 100 (Lotação Máx)</option>
+            </select>
+          </div>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
@@ -162,32 +183,21 @@
         </div>
 
         <div class="form-group">
-          <label>Número de Pessoas</label>
-          <select id="people">
-            <option value="2">2 Pessoas</option>
-            <option value="3">3 Pessoas</option>
-            <option value="4">4 Pessoas</option>
-            <option value="5">5 Pessoas</option>
-            <option value="6+">Mais de 6 (Consultar)</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label>Observações (Opcional)</label>
-          <textarea id="obs" rows="2" placeholder="Aniversário, área externa, etc..."></textarea>
+          <label>Observações / Dúvidas</label>
+          <textarea id="obs" rows="2" placeholder="Precisa de decoração? Posso levar bolo? Etc..."></textarea>
         </div>
 
         <button type="submit" class="btn-whatsapp">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-          SOLICITAR RESERVA
+          COTAR RESERVA NO ZAP
         </button>
       </form>
 
       <div class="rules">
-        <strong>⚠️ Informações Importantes:</strong>
-        <p>• Tolerância de atraso: 15 minutos.</p>
-        <p>• A reserva só é confirmada após a resposta da nossa equipe no WhatsApp.</p>
-        <p>• Dias de jogos importantes sujeitos a lotação máxima.</p>
+        <strong>⚠️ Regras do Espaço:</strong>
+        <p>• Lotação máxima do espaço: 100 pessoas.</p>
+        <p>• É permitido levar bolo para aniversários.</p>
+        <p>• Reservas grandes exigem confirmação antecipada.</p>
       </div>
     </div>
   </main>
@@ -247,18 +257,20 @@
       e.preventDefault();
       
       const name = document.getElementById('name').value;
-      const date = document.getElementById('date').value.split('-').reverse().join('/'); // Formata data BR
-      const time = document.getElementById('time').value;
+      const eventType = document.getElementById('eventType').value;
       const people = document.getElementById('people').value;
+      const date = document.getElementById('date').value.split('-').reverse().join('/'); 
+      const time = document.getElementById('time').value;
       const obs = document.getElementById('obs').value;
 
-      const phone = "557131687533"; // SEU NÚMERO
+      const phone = "557131687533"; 
       
-      const text = `*Olá! Gostaria de fazer uma reserva no Resenha do Chicão*%0A%0A` +
+      const text = `*Olá! Gostaria de cotar o espaço para um evento no Resenha*%0A%0A` +
                    `👤 *Nome:* ${name}%0A` +
+                   `🎉 *Evento:* ${eventType}%0A` +
+                   `👥 *Público:* ${people}%0A` +
                    `📅 *Data:* ${date}%0A` +
                    `⏰ *Horário:* ${time}%0A` +
-                   `👥 *Pessoas:* ${people}%0A` +
                    `📝 *Obs:* ${obs ? obs : 'Nenhuma'}`;
 
       window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${text}`, '_blank');
