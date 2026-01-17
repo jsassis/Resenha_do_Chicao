@@ -80,7 +80,7 @@
     h1 span { color: var(--primary); }
     .subtitle { color: #888; font-family: 'Rock Salt'; margin-bottom: 40px; font-size: 14px; }
 
-    /* --- PAINEL ADMIN (Hidden default) --- */
+    /* --- PAINEL ADMIN --- */
     #adminPanel {
         display: none;
         background: var(--gray);
@@ -92,17 +92,8 @@
         box-shadow: 0 0 20px rgba(61, 165, 54, 0.15);
     }
     #adminPanel h3 { font-family: "Bebas Neue"; color: #fff; margin-bottom: 20px; font-size: 24px; letter-spacing: 1px; }
-    
-    input[type="file"] { 
-        margin-bottom: 20px; color: #ccc; width: 100%; 
-        padding: 10px; background: #1a1a1a; border-radius: 6px; border: 1px solid #444;
-    }
-    
-    .btn-upload {
-        background: var(--primary); color: #fff; border: none; padding: 12px 40px;
-        font-family: "Bebas Neue"; font-size: 20px; border-radius: 6px; cursor: pointer; transition: 0.3s;
-        text-transform: uppercase; letter-spacing: 1px;
-    }
+    input[type="file"] { margin-bottom: 20px; color: #ccc; width: 100%; padding: 10px; background: #1a1a1a; border-radius: 6px; border: 1px solid #444; }
+    .btn-upload { background: var(--primary); color: #fff; border: none; padding: 12px 40px; font-family: "Bebas Neue"; font-size: 20px; border-radius: 6px; cursor: pointer; transition: 0.3s; }
     .btn-upload:hover { background: #fff; color: var(--primary); box-shadow: 0 0 15px rgba(61, 165, 54, 0.5); }
 
     /* --- GRID --- */
@@ -120,39 +111,83 @@
         position: relative;
         transition: all 0.3s ease;
         height: 250px;
+        cursor: pointer;
     }
     .photo-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-    
-    .photo-card img {
-        width: 100%; height: 100%;
-        object-fit: cover; display: block;
-        transition: transform 0.5s;
-    }
+    .photo-card img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s; }
     .photo-card:hover img { transform: scale(1.1); }
 
-    /* Botão Excluir */
     .delete-btn {
-        display: none;
-        position: absolute; top: 10px; right: 10px;
+        display: none; position: absolute; top: 10px; right: 10px;
         background: #ff4444; color: white; border: none;
         width: 32px; height: 32px; border-radius: 50%;
         font-weight: bold; cursor: pointer; z-index: 10;
         justify-content: center; align-items: center;
         box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-        transition: 0.2s;
     }
     .delete-btn:hover { background: red; transform: scale(1.1); }
+
+    /* --- LIGHTBOX (MODAL DE TELA CHEIA) --- */
+    .lightbox {
+        display: none;
+        position: fixed;
+        z-index: 2000;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background-color: rgba(0, 0, 0, 0.95);
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .lightbox.active { display: flex; }
+
+    .lightbox-content {
+        max-width: 90%;
+        max-height: 85%;
+        object-fit: contain;
+        border: 2px solid #333;
+        box-shadow: 0 0 50px rgba(0,0,0,0.8);
+    }
+
+    /* Botões de Navegação do Lightbox */
+    .lb-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: rgba(255,255,255,0.5);
+        font-size: 50px;
+        cursor: pointer;
+        padding: 20px;
+        transition: 0.3s;
+        z-index: 2001;
+    }
+    .lb-btn:hover { color: var(--primary); transform: translateY(-50%) scale(1.2); }
+    .lb-prev { left: 20px; }
+    .lb-next { right: 20px; }
+
+    .lb-close {
+        position: absolute;
+        top: 20px; right: 30px;
+        color: #fff;
+        font-size: 40px;
+        cursor: pointer;
+        font-family: sans-serif;
+        transition: 0.3s;
+        z-index: 2002;
+    }
+    .lb-close:hover { color: #ff4444; }
 
     /* --- FOOTER --- */
     footer { background: #050505; padding: 40px 20px; text-align: center; border-top: 1px solid #333; margin-top: auto; }
     .social-links { margin-bottom: 20px; display: flex; justify-content: center; gap: 20px; }
-    .social-links a { color: #888; transition: 0.3s; display: inline-block; }
+    .social-links a { color: #888; transition: 0.3s; }
     .social-links a:hover { color: var(--primary); transform: scale(1.1); }
     .social-links svg { width: 32px; height: 32px; }
     .footer-info { color: #666; font-size: 14px; line-height: 1.6; margin-bottom: 20px; }
     .copyright { font-family: "Rock Salt"; font-size: 12px; color: #444; }
     
-    /* LOGIN DISCRETO */
     .admin-link { color: #333; text-decoration: none; font-size: 11px; margin-top: 20px; display: inline-block; transition: 0.3s; }
     .admin-link:hover { color: var(--primary); }
     .status-dot { display: inline-block; width: 8px; height: 8px; background: var(--primary); border-radius: 50%; margin-right: 5px; }
@@ -175,6 +210,13 @@
       <a href="/reservas/" class="nav-item">Reservas</a>
     </div>
   </nav>
+
+  <div id="lightbox" class="lightbox">
+      <span class="lb-close" onclick="closeLightbox()">&times;</span>
+      <button class="lb-btn lb-prev" onclick="changeSlide(-1)">&#10094;</button>
+      <img id="lightbox-img" class="lightbox-content" src="">
+      <button class="lb-btn lb-next" onclick="changeSlide(1)">&#10095;</button>
+  </div>
 
   <main>
     <h1>GALERIA DE <span>FOTOS</span></h1>
@@ -229,14 +271,15 @@
     const adminPanel = document.getElementById('adminPanel');
     const authLink = document.getElementById('authLink');
 
-    // 1. CHECAR LOGIN (Controla Painel e Footer)
+    // Variáveis Globais da Galeria
+    window.galleryItems = []; // Armazena URLs das fotos
+    window.currentIndex = 0;  // Foto atual
+
+    // 1. CHECAR LOGIN
     onAuthStateChanged(auth, (user) => {
         if (user) {
-            // LOGADO
             adminPanel.style.display = 'block';
             document.querySelectorAll('.delete-btn').forEach(btn => btn.style.display = 'flex');
-            
-            // Footer: Logout
             authLink.innerHTML = '<span class="status-dot"></span> Sair (Logout)';
             authLink.style.color = '#3DA536';
             authLink.href = "#";
@@ -245,10 +288,7 @@
                 if(confirm("Sair do sistema?")) signOut(auth).then(() => window.location.reload());
             };
         } else {
-            // DESLOGADO
             adminPanel.style.display = 'none';
-            
-            // Footer: Login
             authLink.innerHTML = '🔒 Área Restrita';
             authLink.style.color = '#333';
             authLink.href = "/login/";
@@ -256,36 +296,99 @@
         }
     });
 
-    // 2. CARREGAR FOTOS
-    function loadPhotos() {
+    // 2. CARREGAR FOTOS COM ORDEM CORRETA
+    async function loadPhotos() {
         const container = document.getElementById('galleryContainer');
-        listAll(galleryRef).then((res) => {
+        
+        try {
+            const res = await listAll(galleryRef);
             container.innerHTML = '';
-            if(res.items.length === 0) { container.innerHTML = '<p style="grid-column:1/-1; color:#666;">Nenhuma foto na galeria.</p>'; return; }
+            
+            if(res.items.length === 0) { 
+                container.innerHTML = '<p style="grid-column:1/-1; color:#666;">Nenhuma foto na galeria.</p>'; 
+                return; 
+            }
 
-            res.items.forEach((itemRef) => {
-                getDownloadURL(itemRef).then((url) => {
-                    const card = document.createElement('div');
-                    card.className = 'photo-card';
-                    card.innerHTML = `
-                        <img src="${url}" alt="Foto Galeria" loading="lazy">
-                        <button class="delete-btn" onclick="deletarFoto('${itemRef.fullPath}')">✕</button>
-                    `;
-                    container.appendChild(card);
-                    
-                    // Se carregar já logado, mostra o botão X
-                    if(auth.currentUser) {
-                        card.querySelector('.delete-btn').style.display = 'flex';
-                    }
-                });
+            // Criar array de promessas para pegar URLs
+            const promises = res.items.map(async (itemRef) => {
+                const url = await getDownloadURL(itemRef);
+                return { url: url, path: itemRef.fullPath };
             });
-        }).catch(err => {
+
+            // Esperar todas carregarem para manter ordem
+            const items = await Promise.all(promises);
+            window.galleryItems = items; // Salva na variável global
+
+            items.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'photo-card';
+                // Adiciona evento de clique para abrir o Lightbox
+                card.onclick = (e) => {
+                    // Evita abrir se clicar no botão de deletar
+                    if(e.target.className !== 'delete-btn') openLightbox(index);
+                };
+
+                card.innerHTML = `
+                    <img src="${item.url}" alt="Foto Galeria" loading="lazy">
+                    <button class="delete-btn" onclick="deletarFoto('${item.path}')">✕</button>
+                `;
+                container.appendChild(card);
+            });
+
+            // Se for admin, mostra os botões de deletar
+            if(auth.currentUser) {
+                document.querySelectorAll('.delete-btn').forEach(btn => btn.style.display = 'flex');
+            }
+
+        } catch (err) {
             console.error(err);
             container.innerHTML = '<p>Erro ao carregar.</p>';
-        });
+        }
     }
 
-    // 3. UPLOAD
+    // --- FUNÇÕES DO LIGHTBOX ---
+    window.openLightbox = (index) => {
+        window.currentIndex = index;
+        const lightbox = document.getElementById('lightbox');
+        const img = document.getElementById('lightbox-img');
+        
+        img.src = window.galleryItems[index].url;
+        lightbox.classList.add('active');
+    }
+
+    window.closeLightbox = () => {
+        document.getElementById('lightbox').classList.remove('active');
+    }
+
+    window.changeSlide = (step) => {
+        window.currentIndex += step;
+        
+        // Loop infinito (se chegar no fim, volta pro começo)
+        if (window.currentIndex >= window.galleryItems.length) {
+            window.currentIndex = 0;
+        } else if (window.currentIndex < 0) {
+            window.currentIndex = window.galleryItems.length - 1;
+        }
+
+        const img = document.getElementById('lightbox-img');
+        img.src = window.galleryItems[window.currentIndex].url;
+    }
+
+    // Fechar ao clicar fora da imagem
+    document.getElementById('lightbox').addEventListener('click', (e) => {
+        if (e.target.id === 'lightbox') closeLightbox();
+    });
+
+    // Teclado (Seta e Esc)
+    document.addEventListener('keydown', (e) => {
+        if(document.getElementById('lightbox').classList.contains('active')) {
+            if(e.key === 'Escape') closeLightbox();
+            if(e.key === 'ArrowRight') changeSlide(1);
+            if(e.key === 'ArrowLeft') changeSlide(-1);
+        }
+    });
+
+    // --- FUNÇÕES ADMIN ---
     document.getElementById('btnUpload').addEventListener('click', () => {
         const file = document.getElementById('fileInput').files[0];
         if(!file) return alert("Selecione um arquivo!");
@@ -305,8 +408,11 @@
         });
     });
 
-    // 4. DELETAR
     window.deletarFoto = (path) => { 
+        // StopPropagation já tratado no onclick do card via verificação de target, 
+        // mas aqui é redundante seguro.
+        event.stopPropagation(); 
+        
         if(!auth.currentUser) return;
         if(confirm("Apagar foto permanentemente?")) {
             deleteObject(ref(storage, path))
@@ -324,4 +430,3 @@
 
 </body>
 </html>
-
