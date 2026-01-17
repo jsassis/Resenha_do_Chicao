@@ -152,7 +152,7 @@
     <h2 class="section-title">Programação <span>da Semana</span></h2>
     
     <div class="games-grid" id="agendaContainer">
-      <p style="grid-column: 1/-1; text-align: center; color: #666;">Carregando jogos...</p>
+      <p style="grid-column: 1/-1; text-align: center; color: #666;">Carregando eventos...</p>
     </div>
   </section>
 
@@ -164,7 +164,7 @@
         <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80" alt="Carne do Sol">
         <div class="menu-item-info">
           <div class="menu-item-title">Carne do Sol</div>
-          <div class="menu-item-price">R$ 45,00</div>
+          <div class="menu-item-price">R$ 50,00</div>
         </div>
       </div>
 
@@ -180,7 +180,7 @@
         <img src="https://images.unsplash.com/photo-1608270586620-248524c67de9?q=80&w=600&auto=format&fit=crop" alt="Brahma">
         <div class="menu-item-info">
           <div class="menu-item-title">Brahma 600ml</div>
-          <div class="menu-item-price">R$ 11,00</div>
+          <div class="menu-item-price">R$ 9,00</div>
         </div>
       </div>
 
@@ -188,7 +188,7 @@
         <img src="https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=600&q=80" alt="Tábua de Frios">
         <div class="menu-item-info">
           <div class="menu-item-title">Tábua de Frios</div>
-          <div class="menu-item-price">R$ 20,00</div>
+          <div class="menu-item-price">R$ 25,00</div>
         </div>
       </div>
 
@@ -230,7 +230,7 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    const agendaRef = collection(db, "agenda_jogos");
+    const agendaRef = collection(db, "agenda_eventos");
 
     // CARREGAR AGENDA EM TEMPO REAL
     const q = query(agendaRef, orderBy("createdAt", "asc"));
@@ -240,7 +240,7 @@
       container.innerHTML = "";
 
       if(snapshot.empty) {
-        container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #666; font-size: 14px;">Nenhum jogo cadastrado no momento.</p>';
+        container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #666; font-size: 14px;">Nenhum evento cadastrado no momento.</p>';
         return;
       }
 
@@ -268,3 +268,4 @@
 
 </body>
 </html>
+
