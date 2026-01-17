@@ -109,6 +109,10 @@
     .footer-info { color: #666; font-size: 14px; line-height: 1.6; margin-bottom: 20px; }
     .copyright { font-family: "Rock Salt"; font-size: 12px; color: #444; }
 
+    /* ESTILO DO LINK DE ENDEREÇO */
+    .address-link { color: #888; text-decoration: none; border-bottom: 1px dotted #555; transition: 0.3s; padding-bottom: 2px; }
+    .address-link:hover { color: var(--primary); border-bottom-color: var(--primary); }
+
     /* LOGIN DISCRETO */
     .admin-link { color: #333; text-decoration: none; font-size: 11px; margin-top: 20px; display: inline-block; transition: 0.3s; }
     .admin-link:hover { color: var(--primary); }
@@ -156,7 +160,6 @@
 
   <section class="schedule-section" id="programacao">
     <h2 class="section-title">Agenda <span>de Eventos</span></h2>
-    
     <div class="games-grid" id="agendaContainer">
       <p style="grid-column: 1/-1; text-align: center; color: #666; font-size: 14px;">Carregando eventos...</p>
     </div>
@@ -200,7 +203,7 @@
 
     </div>
     <center style="margin-top:30px;">
-      <a href="/galeria/" style="color:#fff; text-decoration:none; border-bottom:1px solid var(--primary);">Ver Galeria →</a>
+      <a href="/galeria/" style="color:#fff; text-decoration:none; border-bottom:1px solid var(--primary);">Ver Galeria de Fotos →</a>
     </center>
   </section>
 
@@ -214,7 +217,11 @@
       </a>
     </div>
     <div class="footer-info">
-      <p>Rua Teixeira Mendes, 29 - Salvador, BA</p>
+      <p>
+        <a href="https://www.google.com/maps/search/?api=1&query=Rua+Teixeira+Mendes,+29+-+Salvador,+BA" target="_blank" class="address-link">
+          📍 Rua Teixeira Mendes, 29 - Salvador, BA
+        </a>
+      </p>
       <p>Aberto de Terça a Domingo das 11h às 0h</p>
     </div>
     <div class="copyright">Resenha do Chicão</div>
@@ -240,7 +247,9 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    const agendaRef = collection(db, "agenda_eventos"); // Nome corrigido
+    
+    // NOME CORRETO DA COLEÇÃO: agenda_eventos
+    const agendaRef = collection(db, "agenda_eventos");
     const authLink = document.getElementById('authLink');
 
     // 1. GERENCIAR LOGIN RODAPÉ
@@ -299,5 +308,3 @@
 
 </body>
 </html>
-
-
